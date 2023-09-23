@@ -1,0 +1,122 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@include mat.core();
+
+@font-face {
+  font-family: starwars;
+  src: url(assets/fonts/Starjedi.ttf);
+}
+
+$my-primary: mat.define-palette(mat.$yellow-palette, 500);
+$my-accent: mat.define-palette(mat.$blue-palette, A200, A100, A400);
+
+$my-theme: mat.define-dark-theme((color: (primary: $my-primary,
+        accent: $my-accent,
+      ),
+      typography: mat.define-typography-config($font-family: starwars)));
+
+@include mat.all-component-themes($my-theme);
+
+html,
+body {
+  height: 100%;
+  background-color: #070032;
+}
+
+body {
+  margin: 0;
+  text-transform: lowercase;
+  letter-spacing: 3px;
+}
+
+h1,
+h2,
+p,
+input {
+  color: yellow;
+  font-family: "starwars" !important;
+  letter-spacing: 3px !important;
+}
+
+mat-error {
+  font-family: "starwars" !important;
+  letter-spacing: 3px !important;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+p {
+  color: yellow !important;
+}
+
+.margin-bottom-m {
+  margin-bottom: 16px !important;
+}
+
+.margin-left-s {
+  margin-left: 8px !important;
+}
+
+.margin-top-m {
+  margin-top: 16px !important;
+}
+
+.margin-top-l {
+  margin-top: 24px !important;
+}
+
+.margin-top-xl {
+  margin-top: 32px !important;
+}
+
+.margin-top-xxl {
+  margin-top: 48px !important;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.narrow-card {
+  max-width: 400px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button {
+  background-color: yellow !important;
+  letter-spacing: 3px !important;
+  font-size: 18px !important;
+}
+
+mat-list-item {
+  margin: 8px 0 !important;
+}
+
+mat-icon {
+  color: black !important;
+}
+
+mat-card {
+  background-color: #000000 !important;
+}
+
+.mat-mdc-form-field-required-marker {
+  display: none;
+}
+
+.secondary-button{
+  color: cadetblue !important;
+}
+
+.flex-container{
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+}

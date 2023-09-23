@@ -1,0 +1,18 @@
+<button mat-icon-button aria-label="Back" routerLink="/" class="clickable margin-bottom-m">
+  <mat-icon>arrow_back</mat-icon>
+</button>
+
+<mat-card class="narrow-card">
+  <mat-card-content>
+    <mat-error *ngIf="indexCouldNotBeParsedError">Index from person could not be parsed!</mat-error>
+    <mat-error *ngIf="personCouldNotBeLoadedError">Person could not be loaded!</mat-error>
+
+    <ng-container *ngIf="person">
+      <h2>{{ person.name }}</h2>
+      <p>Height: {{ person.height }}</p>
+      <p>Mass: {{ person.mass }}</p>
+      <p>Birth Year: {{ person.birth_year }}</p>
+      <p>Gender: {{ person.gender }}</p>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

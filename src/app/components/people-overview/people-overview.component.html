@@ -1,0 +1,31 @@
+<mat-card class="narrow-card flex-container">
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Star Wars People</h1>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="flex-container">
+    <ng-container  *ngIf="isLoading$ | async">
+      <p class="margin-top-l">Fetching...</p>
+      <mat-spinner class="margin-top-l"></mat-spinner>
+    </ng-container>
+
+    <button mat-raised-button class="margin-top-xxl" color="primary" (click)="openDialog()">Add person</button>
+
+    <mat-form-field class="margin-top-l full-width">
+      <input matInput placeholder="Filter" [(ngModel)]="filterValue">
+      <mat-icon matSuffix class="clear-icon clickable" (click)="filterValue = ''">clear</mat-icon>
+    </mat-form-field>
+
+    <mat-list>
+      <mat-list-item *ngFor="let person of people$ | async | filter: filterValue; index as index ">
+        <div class="flex-row clickable" routerLink="/person/{{index}}">
+          <p>{{ person.name }}</p>
+          <button mat-icon-button (click)="deletePerson(index)" class="clickable margin-left-s">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
