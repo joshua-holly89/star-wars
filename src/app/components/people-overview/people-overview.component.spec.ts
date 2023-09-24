@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { FilterPipe } from 'src/app/pipes/filter.pipe';
+import { NameFilterPipe } from 'src/app/pipes/name-filter.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PeopleOverviewComponent', () => {
@@ -19,7 +19,7 @@ describe('PeopleOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PeopleOverviewComponent, FilterPipe],
+      declarations: [PeopleOverviewComponent, NameFilterPipe],
       imports: [
         HttpClientModule,
         MatListModule,

@@ -28,7 +28,7 @@ describe('PersonDetailComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of({ index: 1 }),
+            params: of({ id: 1 }),
           },
         },
       ],

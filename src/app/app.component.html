@@ -1,4 +1,10 @@
-<div class="container-padding flex-container" [ngClass]="{'center-content': mode === 'new-page'}">
-  <app-people-overview *ngIf="mode === 'side-by-side'"></app-people-overview>
-  <router-outlet></router-outlet>
+<!-- On Desktop: Side by side -->
+<div class="container-padding flex-container"  *ngIf="(platformService.platform | async) === 'desktop'">
+  <app-people-overview></app-people-overview>
+  <router-outlet name='right'></router-outlet>
+</div>
+
+<!-- On Mobile: Only one page -->
+<div class="container-padding flex-container center-content" *ngIf="(platformService.platform | async) === 'mobile'">
+  <router-outlet name='main'></router-outlet>
 </div>

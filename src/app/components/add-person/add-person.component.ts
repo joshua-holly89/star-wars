@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Person } from 'src/app/services/Person';
-import { PeopleService } from 'src/app/services/people.service';
+import { Person } from 'src/app/model/person';
+import { PeopleService } from 'src/app/services/people/people.service';
 
 
 @Component({
@@ -12,13 +12,13 @@ import { PeopleService } from 'src/app/services/people.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPersonComponent implements OnInit {
-  personForm: FormGroup;
+  public personForm: FormGroup<PersonForm> ;
   private formBuilder = inject(FormBuilder);
   private dialogRef = inject( MatDialogRef<AddPersonComponent>);
   private peopleService = inject(PeopleService);
 
   ngOnInit(): void {
-    this.personForm = this.formBuilder.group({
+    this.personForm = this.formBuilder.nonNullable.group({
       name: ['', Validators.required],
       height: ['', Validators.required],
       mass: ['', Validators.required],
@@ -29,7 +29,13 @@ export class AddPersonComponent implements OnInit {
 
   submitForm(): void {
     if (this.personForm.valid) {
-      const newPerson: Person = this.personForm.value;
+      const newPerson: Person = Object.assign({}, {
+        name: this.personForm.value.name || '',
+        height: this.personForm.value.height || '',
+        mass: this.personForm.value.mass || '',
+        birth_year: this.personForm.value.birth_year || '',
+        gender: this.personForm.value.gender || ''
+      });
       this.peopleService.addPersonAtStart(newPerson);
       this.close();
     }
@@ -38,4 +44,12 @@ export class AddPersonComponent implements OnInit {
   close(): void{
     this.dialogRef.close();
   }
+}
+
+interface PersonForm {
+  name: FormControl<string>;
+  height: FormControl<string>;
+  mass: FormControl<string>;
+  birth_year: FormControl<string>;
+  gender: FormControl<string>;
 }

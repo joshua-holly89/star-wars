@@ -1,65 +1,66 @@
-import { AfterViewInit, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Person } from 'src/app/services/Person';
-import { PeopleService } from 'src/app/services/people.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Person } from 'src/app/model/person';
+import { PeopleService } from 'src/app/services/people/people.service';
 
 @Component({
   selector: 'app-person-detail',
   templateUrl: './person-detail.component.html',
   styleUrls: ['./person-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonDetailComponent implements OnInit {
-
-  public indexCouldNotBeParsedError: boolean = false;
+  public idCouldNotBeParsedError: boolean = false;
   public personCouldNotBeLoadedError: boolean = false;
   public person: Person;
   private route = inject(ActivatedRoute);
   private peopleService = inject(PeopleService);
-  private index: number;
+  private id: number;
   private router = inject(Router);
+  private changeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.getIndexOfPersonAndFetch();
-      }
-    });
-    this.getIndexOfPersonAndFetch();
-    this.peopleService.deletedIndex.subscribe(index =>{
-      if(index === this.index){
-        this.router.navigate(["/"])
-      } else if(index < this.index){
-        this.router.navigate(["/person/" + (this.index - 1)]);
-      }
+    this.route.params.subscribe((params) => {
+      this.getIdOfPersonAndFetch(params["id"]);
     })
+    this.navigateToRootOnDisplayedPersonDeleted();
   }
 
-  private getIndexOfPersonAndFetch() {
-    this.tryToParseAndSetIndex();
-    if (!this.indexCouldNotBeParsedError) {
+  private navigateToRootOnDisplayedPersonDeleted(): void {
+    this.peopleService.deletedId.subscribe(id => {
+      if (id === this.id) {
+        this.router.navigate(["/"]);
+      }
+    });
+  }
+
+  private getIdOfPersonAndFetch(idAsString: string): void {
+    this.tryToParseAndSetId(idAsString);
+    if (!this.idCouldNotBeParsedError) {
       this.loadPerson();
     }
   }
 
-  private loadPerson() {
-    this.person = this.peopleService.getPerson(this.index);
+  private loadPerson(): void {
+    this.person = this.peopleService.getPersonById(this.id);
     if (this.person == null) {
       this.personCouldNotBeLoadedError = true;
     } else {
       this.personCouldNotBeLoadedError = false;
     }
+    this.changeDetectorRef.detectChanges();
   }
 
-  private tryToParseAndSetIndex() {
+  private tryToParseAndSetId(idAsString: string): void {
     try {
-      this.index = parseInt(this.route.snapshot.paramMap.get('index'), 10);
-      if (isNaN(this.index)) {
-        this.indexCouldNotBeParsedError = true;
+      this.id = parseInt(idAsString, 10);
+      if (isNaN(this.id)) {
+        this.idCouldNotBeParsedError = true;
       }
     } catch {
-      this.indexCouldNotBeParsedError = true;
+      this.idCouldNotBeParsedError = true;
     }
+    this.changeDetectorRef.detectChanges();
   }
 }

@@ -15,4 +15,5 @@ export interface Person {
   created?: string;
   edited?: string;
   url?: string;
+  id?: number;
 }

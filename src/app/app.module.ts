@@ -16,12 +16,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HttpClientModule } from '@angular/common/http';
 import { PersonDetailComponent } from './components/person-detail/person-detail.component';
-import { PeopleService } from './services/people.service';
-import { FilterPipe } from './pipes/filter.pipe';
+
+import { NameFilterPipe } from './pipes/name-filter.pipe';
 import { AddPersonComponent } from './components/add-person/add-person.component';
+import { PeopleService } from './services/people/people.service';
+import { PlatformService } from './services/platform/platform.service';
 
 @NgModule({
-  declarations: [AppComponent, PeopleOverviewComponent, PersonDetailComponent, FilterPipe, AddPersonComponent],
+  declarations: [AppComponent, PeopleOverviewComponent, PersonDetailComponent, NameFilterPipe, AddPersonComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,6 +47,7 @@ import { AddPersonComponent } from './components/add-person/add-person.component
       deps: [PeopleService],
       multi: true,
     },
+    PlatformService
   ],
   bootstrap: [AppComponent],
 })

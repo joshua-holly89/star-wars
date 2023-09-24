@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { MODE } from './config';
+import { Component, inject } from '@angular/core';
+import { PlatformService } from './services/platform/platform.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  public mode = MODE;
+export class AppComponent{
+  public platformService = inject(PlatformService);
 }
