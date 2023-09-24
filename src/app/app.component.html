@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-padding flex-container" [ngClass]="{'center-content': mode === 'new-page'}">
   <app-people-overview *ngIf="mode === 'side-by-side'"></app-people-overview>
   <router-outlet></router-outlet>
 </div>

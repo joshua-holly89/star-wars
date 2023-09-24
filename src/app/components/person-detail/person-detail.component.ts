@@ -47,6 +47,8 @@ export class PersonDetailComponent implements OnInit {
     this.person = this.peopleService.getPerson(this.index);
     if (this.person == null) {
       this.personCouldNotBeLoadedError = true;
+    } else {
+      this.personCouldNotBeLoadedError = false;
     }
   }
 

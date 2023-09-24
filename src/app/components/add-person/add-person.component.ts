@@ -22,7 +22,7 @@ export class AddPersonComponent implements OnInit {
       name: ['', Validators.required],
       height: ['', Validators.required],
       mass: ['', Validators.required],
-      birthYear: ['', Validators.required],
+      birth_year: ['', Validators.required],
       gender: ['', Validators.required]
     });
   }

@@ -1,10 +1,10 @@
-<mat-card class="narrow-card flex-container">
+<mat-card class="narrow-card flex-container-column">
   <mat-card-header>
     <mat-card-title>
       <h1>Star Wars People</h1>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content class="flex-container">
+  <mat-card-content class="flex-container-column">
     <ng-container  *ngIf="isLoading$ | async">
       <p class="margin-top-l">Fetching...</p>
       <mat-spinner class="margin-top-l"></mat-spinner>

@@ -1,9 +1,15 @@
-.container{
-  display: flex;
-  justify-content: center;
+.container-padding{
   padding: 20px;
 }
 
 app-people-overview{
   margin-right: 60px;
+}
+
+.flex-container{
+  display: flex;
+}
+
+.center-content{
+  justify-content: center;
 }

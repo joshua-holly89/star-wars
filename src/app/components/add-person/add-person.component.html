@@ -1,12 +1,12 @@
 <div class="container">
 
 
-  <form [formGroup]="personForm" class="flex-container">
+  <form [formGroup]="personForm" class="flex-container-column">
     <h2>Add Person</h2>
 
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput formControlName="name" required>
+      <input matInput formControlName="name" required maxlength="16">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -21,7 +21,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Birth Year</mat-label>
-      <input matInput formControlName="birthYear" required>
+      <input matInput formControlName="birth_year" required>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
