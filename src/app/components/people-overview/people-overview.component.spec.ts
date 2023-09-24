@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { NameFilterPipe } from 'src/app/pipes/name-filter.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PlatformService } from 'src/app/services/platform/platform.service';
 
 describe('PeopleOverviewComponent', () => {
   let component: PeopleOverviewComponent;
@@ -32,6 +33,9 @@ describe('PeopleOverviewComponent', () => {
         MatDialogModule,
         BrowserAnimationsModule
       ],
+      providers: [
+        PlatformService
+      ]
     });
     fixture = TestBed.createComponent(PeopleOverviewComponent);
     component = fixture.componentInstance;
