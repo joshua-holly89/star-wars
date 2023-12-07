@@ -15,10 +15,10 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PeopleOverviewComponent implements OnInit {
-  public people$: Observable<Person[]>;
-  public isLoading$: Observable<boolean>;
-  public filterValue: string;
-  private platform: Platform;
+  public people$: Observable<Person[]> | undefined;
+  public isLoading$: Observable<boolean> | undefined;
+  public filterValue: string | undefined;
+  private platform: Platform | undefined ;
   private router = inject(Router);
   private platformService = inject(PlatformService);
   private peopleService = inject(PeopleService);
@@ -41,7 +41,7 @@ export class PeopleOverviewComponent implements OnInit {
     });
   }
 
-  public personTrackBy(_index: number, person: Person): number {
+  public personTrackBy(_index: number, person: Person): number | undefined {
     return person.id;
   }
 

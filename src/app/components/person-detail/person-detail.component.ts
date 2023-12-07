@@ -13,10 +13,10 @@ import { PeopleService } from 'src/app/services/people/people.service';
 export class PersonDetailComponent implements OnInit {
   public idCouldNotBeParsedError: boolean = false;
   public personCouldNotBeLoadedError: boolean = false;
-  public person: Person;
+  public person: Person |undefined;
   private route = inject(ActivatedRoute);
   private peopleService = inject(PeopleService);
-  private id: number;
+  private id: number | undefined;
   private router = inject(Router);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
@@ -43,6 +43,9 @@ export class PersonDetailComponent implements OnInit {
   }
 
   private loadPerson(): void {
+    if(this.id == null) {
+      throw new Error( "person id is null");
+    }
     this.person = this.peopleService.getPersonById(this.id);
     if (this.person == null) {
       this.personCouldNotBeLoadedError = true;

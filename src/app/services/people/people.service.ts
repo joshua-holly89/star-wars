@@ -4,8 +4,7 @@ import {
   BehaviorSubject,
   Observable,
   Subject,
-  catchError,
-  throwError,
+  lastValueFrom,
 } from 'rxjs';
 import { Person } from '../../model/person';
 import { SwapiResponse } from '../../model/swapi-response';
@@ -16,7 +15,7 @@ import { peopleMock } from './people-mock';
 })
 export class PeopleService {
   private _baseUrl = 'https://swapi.dev/api/people/';
-  private _peopleSubject$: BehaviorSubject<Person[]> = new BehaviorSubject([]);
+  private _peopleSubject$: BehaviorSubject<Person[]> = new BehaviorSubject([] as Person[]);
   private _loadingStatusSubject$: BehaviorSubject<boolean> =
     new BehaviorSubject(false);
   private _deletedIdSubject$: Subject<number> = new Subject();
@@ -37,7 +36,7 @@ export class PeopleService {
 
     public fetchAllPeople(): void {
       this._loadingStatusSubject$.next(true);
-      this.fetchPeopleRecursivelyFrom(this._baseUrl);
+      this.fetchPeopleIterativelyFrom(this._baseUrl);
     }
 
   public addPersonAtStart(newPerson: Person): void {
@@ -45,7 +44,7 @@ export class PeopleService {
     this.dispatchPeople([newPerson, ...this._peopleSubject$.getValue()]);
   }
 
-  public getPersonById(id: number): Person {
+  public getPersonById(id: number): Person | undefined {
     return this._peopleSubject$.getValue().find((person) => person.id === id);
   }
 
@@ -62,27 +61,20 @@ export class PeopleService {
       .findIndex((person) => person.id === id);
   }
 
-  private fetchPeopleRecursivelyFrom(urlOfCurrentPage: string): void {
-    this.http
-      .get<SwapiResponse>(urlOfCurrentPage)
-      .pipe(
-        catchError((error) => {
-          const errorMessage =
-            'Something bad happened while fetching the people; please try again later.';
-          this._loadingStatusSubject$.next(false);
-          alert(errorMessage);
-          return throwError(() => new Error(errorMessage));
-        })
-      )
-      .subscribe((response) => {
-        this.addIdsToPersons(response);
-        this.addPeopleAtEnd(response);
-        if (response.next != null) {
-          this.fetchPeopleRecursivelyFrom(response.next);
-        } else {
-          this._loadingStatusSubject$.next(false);
-        }
-      });
+  async fetchPeopleIterativelyFrom(url: string) {
+    let queue = [url];
+
+    while (queue.length > 0) {
+      const currentUrl = queue.shift();
+      if(currentUrl == null) throw new Error("currentUrl is null");
+      const response: SwapiResponse = await lastValueFrom(this.http.get<any>(currentUrl));
+      this.addIdsToPersons(response);
+      this.addPeopleAtEnd(response);
+
+      if (response.next) {
+        queue.push(response.next);
+      }
+    }
   }
 
   private addIdsToPersons(response: SwapiResponse): void {

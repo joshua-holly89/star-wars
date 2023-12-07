@@ -1,7 +1,5 @@
 <div class="container">
-
-
-  <form [formGroup]="personForm" class="flex-container-column">
+  <form *ngIf="personForm" [formGroup]="personForm" class="flex-container-column">
     <h2>Add Person</h2>
 
     <mat-form-field appearance="fill">
@@ -32,5 +30,4 @@
     <button class="margin-top-s" mat-raised-button color="primary" (click)="submitForm()">Submit</button>
     <button class="margin-top-l secondary-button" mat-raised-button (click)="close()">Cancel</button>
   </form>
-
 </div>

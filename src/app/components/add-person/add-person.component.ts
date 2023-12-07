@@ -12,7 +12,7 @@ import { PeopleService } from 'src/app/services/people/people.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPersonComponent implements OnInit {
-  public personForm: FormGroup<PersonForm> ;
+  public personForm: FormGroup<PersonForm> | undefined;
   private formBuilder = inject(FormBuilder);
   private dialogRef = inject( MatDialogRef<AddPersonComponent>);
   private peopleService = inject(PeopleService);
@@ -28,9 +28,9 @@ export class AddPersonComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.personForm.valid) {
+    if (this.personForm?.valid) {
       const newPerson: Person = Object.assign({}, {
-        name: this.personForm.value.name || '',
+        name: this.personForm.value.name?? '',
         height: this.personForm.value.height || '',
         mass: this.personForm.value.mass || '',
         birth_year: this.personForm.value.birth_year || '',
